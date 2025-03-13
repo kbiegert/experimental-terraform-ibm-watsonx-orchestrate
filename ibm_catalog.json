@@ -33,10 +33,10 @@
       ],
       "flavors": [
         {
-          "label": "Standard",
-          "name": "standard",
+          "label": "Fully configurable",
+          "name": "fully-configurable",
           "install_type": "fullstack",
-          "working_directory": "solutions/standard",
+          "working_directory": "solutions/fully-configurable",
           "compliance": {
             "authority": "scc-v3",
             "profiles": [
@@ -53,7 +53,8 @@
             },
             {
               "role_crns": ["crn:v1:bluemix:public:iam::::role:Editor"],
-              "service_name": "lakehouse"
+              "service_name": "lakehouse",
+              "notes": "Lakehouse?  Isnt that a movie?"
             }
           ],
           "architecture": {
@@ -82,35 +83,9 @@
               "type": "password"
             },
             {
-              "key": "provider_visibility",
-              "options": [
-                {
-                  "displayname": "private",
-                  "value": "private"
-                },
-                {
-                  "displayname": "public",
-                  "value": "public"
-                },
-                {
-                  "displayname": "public-and-private",
-                  "value": "public-and-private"
-                }
-              ]
-            },
-            {
-              "key": "use_existing_resource_group"
-            },
-            {
-              "key": "resource_group_name"
-            },
-            {
               "key": "prefix",
               "required": true,
-              "description": "Prefix to add to all resources created by this solution. To not use any prefix value, you can enter the string `__NULL__`."
-            },
-            {
-              "key": "name"
+              "description": "The prefix to add to all resources that this solution creates (e.g `prod`, `test`, `dev`). To not use any prefix value, you can enter the string `__NULL__`."
             },
             {
               "key": "region",
@@ -132,6 +107,21 @@
               ]
             },
             {
+              "key": "existing_resource_group_name",
+              "required": true,
+              "custom_config": {
+                "type": "resource_group",
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "config_constraints": {
+                  "identifier": "rg_name"
+                }
+              }
+            },
+            {
+              "key": "name"
+            },
+            {
               "key": "plan",
               "default_value": "standard",
               "options": [
@@ -142,6 +132,23 @@
                 {
                   "displayname": "Standard",
                   "value": "standard"
+                }
+              ]
+            },
+            {
+              "key": "provider_visibility",
+              "options": [
+                {
+                  "displayname": "private",
+                  "value": "private"
+                },
+                {
+                  "displayname": "public",
+                  "value": "public"
+                },
+                {
+                  "displayname": "public-and-private",
+                  "value": "public-and-private"
                 }
               ]
             },
@@ -162,11 +169,7 @@
               "input_mapping": [
                 {
                   "dependency_output": "workload_resource_group_name",
-                  "version_input": "resource_group_name"
-                },
-                {
-                  "value": true,
-                  "version_input": "use_existing_resource_group"
+                  "version_input": "existing_resource_group_name"
                 },
                 {
                   "dependency_input": "prefix",
